@@ -2,7 +2,7 @@
   <br>
   <a href="https://github.com/ankitdobhal/MailBomber"><img src="https://thepracticaldev.s3.amazonaws.com/i/643lrt9ndql9z9yxemn2.png" alt="MailBomber"></a>
   <br>
-  MassMailer
+  MailBomber
   <br>
 </h1>
 
