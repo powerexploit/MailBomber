@@ -1,13 +1,13 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/ankitdobhal/MassMailer"><img src="https://thepracticaldev.s3.amazonaws.com/i/pcapgsec5ydidpgpib6c.png" alt="MassMailer"></a>
+  <a href="https://github.com/ankitdobhal/MailBomber"><img src="https://thepracticaldev.s3.amazonaws.com/i/643lrt9ndql9z9yxemn2.png" alt="MailBomber"></a>
   <br>
   MassMailer
   <br>
 </h1>
 
-# MassMailer - Mass Mail Attack tool
-MassMailer is one of the easiest & simple tool in python which basically works on **mass mail attack** to send multiple mails to victim.It is inspired by **Mass mail attack vector** in **kali linux**  **Setoolkit(Social engineering tool)**.
+# MaiBomber - Mass Mail Attack tool
+MailBomber is one of the easiest & simple tool in python which basically works on **mass mail attack** to send multiple mails to victim.It is inspired by **Mass mail attack vector** in **kali linux**  **Setoolkit(Social engineering tool)**.It is designed with smtplib library.
 ![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/h687z3g246dpbr0szgxx.png)
 ![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/61h8fpmgy5imfs25d7xp.png)
 
