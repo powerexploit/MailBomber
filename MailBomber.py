@@ -1,53 +1,54 @@
 #!/usr/bin/python3
-#MailBomber.py -> mass mailing script
+# MailBomber.py -> mass mailing script
 import smtplib
-RED = '\033[31m'
-END = '\033[0m'
-ascii_art = RED \
-    + """                                                                                                                                                                                                                                                                                                                                                     
-     ______  _______          ____    ____  ____              _____          _____         ______  _______         _____        ______        _____   
-    |      \/       \    ____|\   \  |    ||    |        ___|\     \    ____|\    \       |      \/       \   ___|\     \   ___|\     \   ___|\    \  
-   /          /\     \  /    /\    \ |    ||    |       |    |\     \  /     /\    \     /          /\     \ |    |\     \ |     \     \ |    |\    \ 
-  /     /\   / /\     ||    |  |    ||    ||    |       |    | |     |/     /  \    \   /     /\   / /\     ||    | |     ||     ,_____/||    | |    |
- /     /\ \_/ / /    /||    |__|    ||    ||    |  ____ |    | /_ _ /|     |    |    | /     /\ \_/ / /    /||    | /_ _ / |     \--'\_|/|    |/____/ 
-|     |  \|_|/ /    / ||    .--.    ||    ||    | |    ||    |\    \ |     |    |    ||     |  \|_|/ /    / ||    |\    \  |     /___/|  |    |\    \ 
-|     |       |    |  ||    |  |    ||    ||    | |    ||    | |    ||\     \  /    /||     |       |    |  ||    | |    | |     \____|\ |    | |    |
-|\____\       |____|  /|____|  |____||____||____|/____/||____|/____/|| \_____\/____/ ||\____\       |____|  /|____|/____/| |____ '     /||____| |____|
-| |    |      |    | / |    |  |    ||    ||    |     |||    /     || \ |    ||    | /| |    |      |    | / |    /     || |    /_____/ ||    | |    |
- \|____|      |____|/  |____|  |____||____||____|_____|/|____|_____|/  \|____||____|/  \|____|      |____|/  |____|_____|/ |____|     | /|____| |____|
-    \(          )/       \(      )/    \(    \(    )/     \(    )/        \(    )/        \(          )/       \(    )/      \( |_____|/   \(     )/  
-     '          '         '      '      '     '    '       '    '          '    '          '          '         '    '        '    )/       '     '   
-                                                                                                                                   '                                                                                           
-                                                     [++] MailBomber is a mass mailer script or tool [++]
-                                                                Coded By: Ankit Dobhal                                
-                                                             Let's Begin To Bomb the mails..!            
--------------------------------------------------------------------------------------------------------------------------------------------------------
-MailBomber version 1.0
-""" \
-    + END
-print(ascii_art)
-def mass():
-    smtpobj = smtplib.SMTP('smtp.gmail.com',587)
-    #smtpobj is a SMTP object that represents a connection to an SMTP mail server and has methods for sending emails.
-    my_email = input("What is  your gmail?:")
-    my_passw = input("Enter the password:")
-    recip_mail = input("What is the recipient gmail?:")
+
+from src.mail_bomb import MailBomb
+from src.mail_client import MailClient
+from src.utils.util import get_ascii_header
+
+print(get_ascii_header())
+
+
+def get_mail_bomb_input():
+    recip_mail = input("What is the recipient\'s email address ? ")
     message = input("Enter the message that you want to mail:\n")
-    times = int(input("How many times do you want to mail?"))
-    smtpobj.starttls() 
-    #This step enables encryption(TLS Encryption) for your connection.
-    
+    times = int(input("How many times do you want to send mail ? "))
+
+    return MailBomb(recip_mail, times, message)
+
+
+def get_smtp_server_and_port(server):
+    if server == "gmail":
+        smtp_server = "smtp.gmail.com"
+    elif server == "yahoo":
+        smtp_server = "smtp.mail.yahoo.com"
+        port = 465
+    elif server == "outlook":
+        smtp_server = "smtp.live.com"
+    else:
+        raise ValueError('SMTP server and port not available')
+    return smtp_server, port
+
+
+def get_email_client(smtp_server, port):
+    smtpobj = smtplib.SMTP(smtp_server, port)
+    smtpobj.ehlo()
+    return smtpobj
+
+
+def mass():
     try:
-        smtpobj.login(my_email,my_passw)
-        #this will help user to logged in gmail account
-    except smtplib.SMTPAuthenticationError:
-        print("Change setting in your account to login in your account")
-    
-    for i in range(0,times):
-        i=i+1
-        smtpobj.sendmail(my_email,recip_mail,message)
-        #sendmail() will help user to send mail to recipent user.
-        print("[i] mail sended",i,"times...")    
-    print("Lets quit:\n",smtpobj.quit())
-    #it will close your connection
-mass()
+        server = input("Server Mail:")
+        smtp_server, port = get_smtp_server_and_port(server)
+        smtpobj = get_email_client(smtp_server, port)
+        mail_client = MailClient(smtpobj)
+        mail_client.enable_email_encryption(smtp_server)
+
+        mail_bomb_request = get_mail_bomb_input()
+        mail_client.send_email_bomb(mail_bomb_request)
+    except ValueError as err:
+        print(err)
+
+
+if __name__ == '__main__':
+    mass()
