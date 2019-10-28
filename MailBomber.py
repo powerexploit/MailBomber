@@ -20,6 +20,7 @@ def get_mail_bomb_input():
 def get_smtp_server_and_port(server):
     if server == "gmail":
         smtp_server = "smtp.gmail.com"
+        port = 587
     elif server == "yahoo":
         smtp_server = "smtp.mail.yahoo.com"
         port = 465
