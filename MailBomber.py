@@ -18,15 +18,20 @@ def get_mail_bomb_input():
 
 
 def get_smtp_server_and_port(server):
-    if server == "gmail":
-        smtp_server = "smtp.gmail.com"
-    elif server == "yahoo":
-        smtp_server = "smtp.mail.yahoo.com"
-        port = 465
-    elif server == "outlook":
-        smtp_server = "smtp.live.com"
-    else:
-        raise ValueError('SMTP server and port not available')
+    
+    select_smtp = {
+        "gmail" : "smtp.gmail.com",
+        "yahoo" : "smtp.mail.yahoo.com",
+        "outlook" : "smtp.live.com"
+    }
+    
+    select_port = {
+        "yahoo" : 465
+    }
+    
+    smtp_server = select_smtp.get(server) or ValueError('SMTP server and port not available')
+    port = select_port.get(server) or ValueError('SMTP server and port not available')
+    
     return smtp_server, port
 
 
